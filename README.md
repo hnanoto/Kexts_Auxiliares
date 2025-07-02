@@ -18,3 +18,8 @@ Execute o instalador a partir da pasta `kexts`:
 ```
 
 Consulte a documentação no idioma desejado para detalhes adicionais.
+
+## Fluxograma / Flowchart
+
+![Fluxograma em Português](docs/pt_BR/fluxograma_instalacao_vertical.png)
+![Flowchart in English](docs/en/fluxograma_installation_vertical.png)
