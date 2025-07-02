@@ -48,3 +48,6 @@ Enter your password when prompted and reboot your system.
 ├── AirPortUtility.kext
 └── BluetoothFileExchange.kext
 ```
+## Installation Flowchart
+
+![Installation flowchart](fluxograma_installation_vertical.png)
