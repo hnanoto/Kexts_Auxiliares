@@ -1,6 +1,7 @@
 name: Hackintosh-And-Beyond-Kexts
 options:
   minimumXcodeGenVersion: 2.38.0
+  xcodeVersion: '15.0'
   deploymentTarget:
     macOS: '14.0'
 

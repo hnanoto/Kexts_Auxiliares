@@ -8,6 +8,8 @@ OUT_DIR="$ROOT_DIR/kexts"
 VERSION="${KEXT_VERSION:-1.0.0}"
 BUILD_NUMBER="${KEXT_BUILD_NUMBER:-$VERSION}"
 SCHEMES=("AirPortUtility" "BluetoothFileExchange")
+GENERATE_LOG="/tmp/kexts_aux_generate.log"
+BUILD_LOG="/tmp/kexts_aux_build.log"
 
 if [ "${1:-}" != "" ]; then
   VERSION="$1"
@@ -27,10 +29,16 @@ if [ ! -d "$XCODE_DIR/external/MacKernelSDK/Headers" ]; then
   ./scripts/install_mackernelsdk.sh
 fi
 
-./scripts/generate_project.sh >/tmp/kexts_aux_generate.log
+: >"$BUILD_LOG"
+if ! ./scripts/generate_project.sh >"$GENERATE_LOG" 2>&1; then
+  echo "Failed generating Xcode project."
+  echo "----- generate_project.sh log -----"
+  cat "$GENERATE_LOG" || true
+  exit 74
+fi
 
 for SCHEME in "${SCHEMES[@]}"; do
-  xcodebuild -project Hackintosh-And-Beyond-Kexts.xcodeproj \
+  if ! xcodebuild -project Hackintosh-And-Beyond-Kexts.xcodeproj \
     -scheme "$SCHEME" \
     -configuration Release \
     ARCHS=x86_64 \
@@ -38,7 +46,12 @@ for SCHEME in "${SCHEMES[@]}"; do
     MARKETING_VERSION="$VERSION" \
     CURRENT_PROJECT_VERSION="$BUILD_NUMBER" \
     CONFIGURATION_BUILD_DIR="$BUILD_DIR" \
-    build
+    build 2>&1 | tee -a "$BUILD_LOG"; then
+    echo "xcodebuild failed for scheme: $SCHEME"
+    echo "----- xcodebuild log tail -----"
+    tail -n 200 "$BUILD_LOG" || true
+    exit 74
+  fi
 done
 
 for KEXT in "${SCHEMES[@]}"; do
