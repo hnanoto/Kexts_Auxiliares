@@ -7,6 +7,13 @@ Build real kernel extensions with final production names:
 - `AirPortUtility.kext`
 - `BluetoothFileExchange.kext`
 
+## Runtime role split
+
+- `AirPortUtility.kext`: Wi-Fi and local network stabilizer.
+- `BluetoothFileExchange.kext`: Bluetooth stabilizer.
+
+Both targets keep the same architecture and boot-injection logic already established in this repository, while adding role-specific watchdog/recovery behavior.
+
 ## Requirements
 
 - Xcode 26+

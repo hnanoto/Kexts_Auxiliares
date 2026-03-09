@@ -5,6 +5,19 @@ This repository ships two production-named kexts:
 - `AirPortUtility.kext`
 - `BluetoothFileExchange.kext`
 
+## Kext responsibilities
+
+- `AirPortUtility.kext`:
+  - focuses on Wi-Fi and local network service stability at boot/runtime
+  - runs a watchdog for Wi-Fi/network service availability
+  - performs gentle recovery cycles when repeated degraded checks are detected
+- `BluetoothFileExchange.kext`:
+  - focuses on Bluetooth service stability at boot/runtime
+  - runs a watchdog for Bluetooth controller/transport availability
+  - performs gentle recovery cycles when repeated degraded checks are detected
+
+These are auxiliary stabilizer kexts for EFI-based workflows. They are not full hardware replacement drivers.
+
 ## Repository layout
 
 - `kexts/`: ready-to-test binaries
