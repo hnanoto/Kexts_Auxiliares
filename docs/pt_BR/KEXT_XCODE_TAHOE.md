@@ -81,7 +81,17 @@ Copie cada `dict` para `Kernel -> Add` e ajuste:
 - `ExecutablePath`
 - `PlistPath`
 
-## 6) Validacao antes de boot
+## 6) Clover
+
+Para Clover, nao existe `Kernel -> Add`.
+Instalacao padrao:
+- copiar os kexts para `EFI/CLOVER/kexts/Other/`
+- reiniciar
+
+Guia pronto:
+- `templates/Clover-Install-Guide.txt`
+
+## 7) Validacao antes de boot
 
 ```bash
 plutil -lint NomeDoDriver.kext/Contents/Info.plist
@@ -93,3 +103,18 @@ kmutil inspect --bundle-path NomeDoDriver.kext
 - Kext legado e cada vez mais restrito no macOS moderno.
 - Em hardware Apple Silicon, normalmente exige politica de seguranca reduzida para carregar kext de terceiros.
 - Sempre prefira DriverKit quando possivel; mantenha kext legado apenas se realmente necessario.
+
+## 8) Empacotamento de release
+
+Na raiz do repositorio:
+
+```bash
+./scripts/build_release_kexts.sh
+./scripts/validate_kexts.sh
+./scripts/package_release_assets.sh
+```
+
+Assets gerados:
+- `dist/release/Hackintosh-And-Beyond-OpenCore-EFI.zip`
+- `dist/release/Hackintosh-And-Beyond-Clover-EFI.zip`
+- `dist/release/SHA256SUMS.txt`

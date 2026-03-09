@@ -18,6 +18,12 @@ This repository ships two production-named kexts:
 2. Use `templates/OpenCore-Kernel-Add-snippet.plist` for `Kernel -> Add`.
 3. Re-snapshot your EFI config and reboot.
 
+## Clover
+
+1. Copy kexts from `kexts/` to `EFI/CLOVER/kexts/Other/`.
+2. Clover injects kexts from `Other` automatically.
+3. Quick guide: `templates/Clover-Install-Guide.txt`.
+
 ## /Library/Extensions install (optional)
 
 Use only if you know the implications:
@@ -44,7 +50,15 @@ From repo root:
 ```bash
 ./scripts/build_release_kexts.sh
 ./scripts/validate_kexts.sh
+./scripts/package_release_assets.sh
 ```
+
+Distribution assets are generated in `dist/release/`.
+
+## CI/Release (GitHub Actions)
+
+- Push to `main`: full CI + distribution artifacts.
+- Tag `v*`: full CI + GitHub Release publish with ZIPs and `SHA256SUMS.txt`.
 
 ## Technical notes
 

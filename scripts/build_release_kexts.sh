@@ -5,33 +5,43 @@ ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 XCODE_DIR="$ROOT_DIR/xcode/Hackintosh-And-Beyond-Kexts"
 BUILD_DIR="$ROOT_DIR/.build/release"
 OUT_DIR="$ROOT_DIR/kexts"
-STAMP="$(date +%Y%m%d-%H%M%S)"
+VERSION="${KEXT_VERSION:-1.0.0}"
+BUILD_NUMBER="${KEXT_BUILD_NUMBER:-$VERSION}"
+SCHEMES=("AirPortUtility" "BluetoothFileExchange")
+
+if [ "${1:-}" != "" ]; then
+  VERSION="$1"
+fi
+
+if [ "${2:-}" != "" ]; then
+  BUILD_NUMBER="$2"
+fi
+
+echo "Building release kexts"
+echo "Version: $VERSION"
+echo "Build number: $BUILD_NUMBER"
 
 cd "$XCODE_DIR"
 
-if [ ! -d "$XCODE_DIR/external/MacKernelSDK/.git" ]; then
+if [ ! -d "$XCODE_DIR/external/MacKernelSDK/Headers" ]; then
   ./scripts/install_mackernelsdk.sh
 fi
 
 ./scripts/generate_project.sh >/tmp/kexts_aux_generate.log
 
-xcodebuild -project Hackintosh-And-Beyond-Kexts.xcodeproj \
-  -scheme AirPortUtility \
-  -configuration Release \
-  ARCHS=x86_64 \
-  ONLY_ACTIVE_ARCH=YES \
-  CONFIGURATION_BUILD_DIR="$BUILD_DIR" \
-  build
+for SCHEME in "${SCHEMES[@]}"; do
+  xcodebuild -project Hackintosh-And-Beyond-Kexts.xcodeproj \
+    -scheme "$SCHEME" \
+    -configuration Release \
+    ARCHS=x86_64 \
+    ONLY_ACTIVE_ARCH=YES \
+    MARKETING_VERSION="$VERSION" \
+    CURRENT_PROJECT_VERSION="$BUILD_NUMBER" \
+    CONFIGURATION_BUILD_DIR="$BUILD_DIR" \
+    build
+done
 
-xcodebuild -project Hackintosh-And-Beyond-Kexts.xcodeproj \
-  -scheme BluetoothFileExchange \
-  -configuration Release \
-  ARCHS=x86_64 \
-  ONLY_ACTIVE_ARCH=YES \
-  CONFIGURATION_BUILD_DIR="$BUILD_DIR" \
-  build
-
-for KEXT in AirPortUtility BluetoothFileExchange; do
+for KEXT in "${SCHEMES[@]}"; do
   SRC="$BUILD_DIR/$KEXT.kext"
   DST="$OUT_DIR/$KEXT.kext"
 
@@ -40,13 +50,9 @@ for KEXT in AirPortUtility BluetoothFileExchange; do
     exit 1
   fi
 
-  if [ -d "$DST" ]; then
-    mv "$DST" "$OUT_DIR/$KEXT.kext.bak.$STAMP"
-  fi
-
+  rm -rf "$DST"
   cp -R "$SRC" "$DST"
   codesign --force --deep --sign - --timestamp=none "$DST" >/dev/null 2>&1 || true
-
 done
 
 echo "Release kexts updated in: $OUT_DIR"

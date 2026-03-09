@@ -40,8 +40,30 @@ Use:
 
 - `templates/OpenCore-Kernel-Add-snippet.plist`
 
+## Clover
+
+For Clover there is no `Kernel -> Add`.
+Standard installation:
+- copy kexts to `EFI/CLOVER/kexts/Other/`
+- reboot
+
+Guide:
+- `templates/Clover-Install-Guide.txt`
+
 ## Notes
 
 - Default architecture in this repo: `x86_64`
 - Local flow signs ad-hoc for testing
 - For stricter environments, use a proper Apple kext signing identity
+
+## Release packaging
+
+From repository root:
+
+```bash
+./scripts/build_release_kexts.sh
+./scripts/validate_kexts.sh
+./scripts/package_release_assets.sh
+```
+
+Generated assets include OpenCore/Clover ZIP bundles and `SHA256SUMS.txt`.

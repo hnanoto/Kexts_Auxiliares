@@ -17,6 +17,8 @@ settings:
     KERNEL_FRAMEWORK_HEADERS: '$(SRCROOT)/external/MacKernelSDK/Headers'
     LIBRARY_SEARCH_PATHS: '$(inherited) $(SRCROOT)/external/MacKernelSDK/Library/x86_64'
     MACOSX_DEPLOYMENT_TARGET: '14.0'
+    MARKETING_VERSION: '1.0.0'
+    CURRENT_PROJECT_VERSION: '1.0.0'
     GCC_ENABLE_KERNEL_DEVELOPMENT: 'YES'
     OTHER_LDFLAGS: '$(inherited) -undefined dynamic_lookup'
     SKIP_INSTALL: 'YES'
@@ -37,8 +39,8 @@ targets:
       properties:
         CFBundleExecutable: "$(EXECUTABLE_NAME)"
         CFBundlePackageType: KEXT
-        CFBundleShortVersionString: 1.0.0
-        CFBundleVersion: 1.0.0
+        CFBundleShortVersionString: "$(MARKETING_VERSION)"
+        CFBundleVersion: "$(CURRENT_PROJECT_VERSION)"
         HackintoshAndBeyond:
           Developer: Hnanoto
           Project: Hackintosh-And-Beyond
@@ -73,8 +75,8 @@ targets:
       properties:
         CFBundleExecutable: "$(EXECUTABLE_NAME)"
         CFBundlePackageType: KEXT
-        CFBundleShortVersionString: 1.0.0
-        CFBundleVersion: 1.0.0
+        CFBundleShortVersionString: "$(MARKETING_VERSION)"
+        CFBundleVersion: "$(CURRENT_PROJECT_VERSION)"
         HackintoshAndBeyond:
           Developer: Hnanoto
           Project: Hackintosh-And-Beyond

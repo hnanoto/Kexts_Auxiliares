@@ -1,0 +1,12 @@
+Clover kext installation guide
+
+1. Mount your EFI partition.
+2. Copy:
+   - AirPortUtility.kext
+   - BluetoothFileExchange.kext
+   to EFI/CLOVER/kexts/Other/
+3. Reboot and verify Clover injected both kexts.
+
+Notes:
+- Clover does not require OpenCore Kernel->Add entries.
+- Keep both kext names exactly as distributed.
