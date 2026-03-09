@@ -1,47 +1,30 @@
-# ❓ FAQ — Auxiliary Kexts Hackintosh and Beyond
+# FAQ (EN)
 
-## 🔸 Are these real kernel drivers?
+## Are these real kernel extensions?
 
-❌ No. They use the `.kext` structure but are Apple utility apps packaged as kexts. They reactivate legacy Wi-Fi and Bluetooth functionality.
+Yes. Current binaries are `MH_KEXT_BUNDLE` and use `CFBundlePackageType = KEXT`.
 
----
+## Can I use them in EFI (OpenCore)?
 
-## 🔸 Can I place them in OpenCore or Clover EFI?
+Yes. This is the recommended Hackintosh flow.
 
-🚫 No. The EFI only loads valid IOKit drivers. These tools will not be executed or loaded if placed in the EFI.
+## Can I install them in /Library/Extensions?
 
----
+Yes, but this is a legacy/advanced path and depends on macOS security policy.
 
-## 🔸 Where should I install them properly?
+## Which architecture is supported in this repo?
 
-✅ In `/Library/Extensions`, using the script included:
+`x86_64` in the default build pipeline.
+
+## Are the kexts signed with an Apple production kext certificate?
+
+Not in the default local flow. The pipeline uses ad-hoc signing for testing.
+
+## How do I rebuild the binaries in the `kexts` directory?
+
+From repository root:
+
 ```bash
-sudo ./instalar_auxiliares_autoelevado.command
-```
-
----
-
-## 🔸 Do they work on Hackintosh systems?
-
-✅ Yes. They can help fix AirDrop issues, Bluetooth OBEX support, Wi-Fi instability or mesh sync with legacy AirPort base stations.
-
----
-
-## 🔸 Do they work on real Macs?
-
-✅ Yes. Some Mac users report improved behavior after manually reinstalling these legacy tools via Terminal.
-
----
-
-## 🔸 Do these kexts replace Lilu or other drivers?
-
-🚫 No. They complement your system with extra utilities, but do **not replace** `Lilu.kext`, `BlueToolFixup.kext`, `AirportItlwm.kext`, or `BrcmPatchRAM.kext`.
-
----
-
-## 🔸 Do I need to rebuild kext cache?
-
-✅ Yes. The script already does that automatically:
-```bash
-kextcache -i /
+./scripts/build_release_kexts.sh
+./scripts/validate_kexts.sh
 ```

@@ -1,50 +1,57 @@
-# 📦 Kexts Auxiliares Hackintosh and Beyond
+# Kexts Auxiliares — Guia (PT-BR)
 
-Este repositório disponibiliza dois "kexts auxiliares" utilizados para **melhorar a estabilidade e funcionalidade das conexões Wi-Fi e Bluetooth** em ambientes **Hackintosh** e até mesmo em **Macs reais**:
+Este repositório mantém dois kexts com nomes finais de produção:
 
 - `AirPortUtility.kext`
 - `BluetoothFileExchange.kext`
 
-Apesar da extensão `.kext`, esses arquivos são na verdade **utilitários internos da Apple empacotados com estrutura de kext**, com funções específicas ativadas no sistema após o boot.
+## Estrutura do repositório
 
-## ✅ Finalidade
+- `kexts/`: binários prontos para teste/uso
+- `xcode/Hackintosh-And-Beyond-Kexts/`: fonte e projeto de build
+- `templates/`: snippets de `Info.plist` e OpenCore
+- `docs/`: documentação
 
-| Kext | Função Principal |
-|------|------------------|
-| `AirPortUtility.kext` | Reativa recursos avançados do AirPort/Wi-Fi, inclusive suporte a base stations legadas, eventos de conexão, rede mesh e AirPlay |
-| `BluetoothFileExchange.kext` | Restaura suporte ao protocolo OBEX (Bluetooth File Transfer) e melhora estabilidade de sessões BT |
+## OpenCore (recomendado para Hackintosh)
 
-## 🔧 Instalação Recomendada
+1. Copie os arquivos de `kexts/` para `EFI/OC/Kexts/`.
+2. Use o snippet `templates/OpenCore-Kernel-Add-snippet.plist` para `Kernel -> Add`.
+3. Gere snapshot da sua EFI e reinicie.
 
-⚠️ **Não coloque estes kexts na EFI** — eles não são drivers de boot.
+## Instalação em /Library/Extensions (opcional)
 
-### Instalar com script autoelevado:
+Use apenas se você souber exatamente o que está fazendo:
 
 ```bash
+cd kexts
 ./instalar_auxiliares_autoelevado.command
 ```
 
-Insira sua senha quando solicitado e reinicie o sistema.
-
-## 📁 Local de Instalação
+## Build local (Xcode)
 
 ```bash
-/Library/Extensions
+cd xcode/Hackintosh-And-Beyond-Kexts
+./scripts/install_mackernelsdk.sh
+./scripts/generate_project.sh
+xcodebuild -project Hackintosh-And-Beyond-Kexts.xcodeproj -scheme AirPortUtility -configuration Release build
+xcodebuild -project Hackintosh-And-Beyond-Kexts.xcodeproj -scheme BluetoothFileExchange -configuration Release build
 ```
 
-## 🖥️ Compatibilidade
+## Pipeline de release deste repositório
 
-| Plataforma | Compatível |
-|------------|------------|
-| Hackintosh | ✅ Totalmente compatível |
-| Mac real   | ✅ Reativa recursos legados |
-| EFI (OpenCore/Clover) | ❌ Sem efeito — não carregam no preboot |
+Na raiz do repo:
 
-## 📂 Conteúdo do Pacote
-
+```bash
+./scripts/build_release_kexts.sh
+./scripts/validate_kexts.sh
 ```
-📁 Kexts_Auxiliares/
-├── instalar_auxiliares_autoelevado.command
-├── AirPortUtility.kext
-└── BluetoothFileExchange.kext
-```
+
+## Observações técnicas
+
+- Build padrão: `x86_64`
+- Assinatura no fluxo local: ad-hoc
+- Em ambientes com política rígida de segurança, assinatura Apple de kext pode ser exigida
+
+## Guia tecnico adicional
+
+- `docs/pt_BR/KEXT_XCODE_TAHOE.md`

@@ -1,25 +1,36 @@
 # Kexts Auxiliares
 
-Este repositório reúne utilitários de Wi-Fi e Bluetooth para macOS,
-além de scripts de instalação fáceis de usar.
+Repositório oficial dos kexts auxiliares do projeto Hackintosh-And-Beyond:
 
-## Estrutura
+- `AirPortUtility.kext`
+- `BluetoothFileExchange.kext`
 
-- `kexts/` – script de instalação e kexts auxiliares
-- `docs/pt_BR/` – documentação em Português (README, FAQ e fluxograma)
-- `docs/en/` – documentation in English (README, FAQ and flowchart)
+## Estado atual
 
-### Rápido começo
+- Binários de release atualizados no diretório `kexts/`
+- Projeto fonte em `xcode/Hackintosh-And-Beyond-Kexts/`
+- Templates de configuração em `templates/`
+- Documentação PT-BR e EN em `docs/`
 
-Execute o instalador a partir da pasta `kexts`:
+## Uso rápido (OpenCore)
+
+1. Copie os kexts de `kexts/` para `EFI/OC/Kexts/`.
+2. Adicione as entradas em `Kernel -> Add` usando:
+   - `templates/OpenCore-Kernel-Add-snippet.plist`
+3. Faça snapshot no config (ProperTree/OCAT) e reinicie.
+
+## Build de produção
 
 ```bash
-./kexts/instalar_auxiliares_autoelevado.command
+./scripts/build_release_kexts.sh
+./scripts/validate_kexts.sh
 ```
 
-Consulte a documentação no idioma desejado para detalhes adicionais.
+Isso recompila os dois kexts e atualiza automaticamente a pasta `kexts/`.
 
-## Fluxograma / Flowchart
+## Documentação
 
-![Fluxograma em Português](docs/pt_BR/fluxograma_instalacao_vertical.png)
-![Flowchart in English](docs/en/fluxograma_installation_vertical.png)
+- Português: `docs/pt_BR/README.md`
+- English: `docs/en/README.md`
+- Guia Xcode (PT-BR): `docs/pt_BR/KEXT_XCODE_TAHOE.md`
+- Xcode guide (EN): `docs/en/KEXT_XCODE_TAHOE.md`

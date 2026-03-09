@@ -1,48 +1,37 @@
-#!/bin/bash
-# Script de instalação de kexts auxiliares para Wi-Fi e Bluetooth com autoelevação
-# Desenvolvido com padrão profissional — Hackintosh and Beyond
+#!/usr/bin/env bash
+set -euo pipefail
 
-# Reexecutar com sudo se não for root
 if [[ $EUID -ne 0 ]]; then
-  echo "⚙️ Este script precisa ser executado como root. Solicitando sudo..."
+  echo "This installer needs root privileges. Requesting sudo..."
   exec sudo "$0" "$@"
 fi
 
-echo ""
-echo "🔧 Instalando kexts auxiliares do sistema..."
-echo ""
-
-# Caminho onde estão os kexts (mesma pasta do script)
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+TARGET_DIR="/Library/Extensions"
+KEXTS=("AirPortUtility.kext" "BluetoothFileExchange.kext")
 
-# Lista de kexts a instalar
-KEXTS=(
-  "AirPortUtility.kext"
-  "BluetoothFileExchange.kext"
-)
+echo "Installing kexts to $TARGET_DIR"
 
-for KEXT in "${KEXTS[@]}"; do
-  KEXT_PATH="$SCRIPT_DIR/$KEXT"
+for kext in "${KEXTS[@]}"; do
+  src="$SCRIPT_DIR/$kext"
+  dst="$TARGET_DIR/$kext"
 
-  if [ -d "$KEXT_PATH" ]; then
-    echo "📦 Instalando $KEXT em /Library/Extensions..."
-    cp -R "$KEXT_PATH" /Library/Extensions/
-  else
-    echo "❌ Kext não encontrado: $KEXT_PATH"
+  if [[ ! -d "$src" ]]; then
+    echo "Missing kext: $src"
+    exit 1
   fi
+
+  if [[ -d "$dst" ]]; then
+    mv "$dst" "$dst.bak.$(date +%Y%m%d-%H%M%S)"
+  fi
+
+  cp -R "$src" "$dst"
+  chown -R root:wheel "$dst"
+  chmod -R 755 "$dst"
+  echo "Installed: $kext"
 done
 
-echo ""
-echo "🔒 Corrigindo permissões..."
-chown -R root:wheel /Library/Extensions/AirPortUtility.kext
-chown -R root:wheel /Library/Extensions/BluetoothFileExchange.kext
-chmod -R 755 /Library/Extensions/AirPortUtility.kext
-chmod -R 755 /Library/Extensions/BluetoothFileExchange.kext
-
-echo ""
-echo "🧹 Limpando e reconstruindo cache de kexts..."
+echo "Rebuilding kext cache..."
 kextcache -i /
 
-echo ""
-echo "✅ Instalação concluída com sucesso!"
-echo "🔁 Reinicie o sistema para aplicar totalmente os efeitos."
+echo "Done. Reboot is recommended."

@@ -1,0 +1,109 @@
+name: Hackintosh-And-Beyond-Kexts
+options:
+  minimumXcodeGenVersion: 2.38.0
+  deploymentTarget:
+    macOS: '14.0'
+
+settings:
+  base:
+    ARCHS: x86_64
+    CLANG_CXX_LANGUAGE_STANDARD: gnu++17
+    CLANG_CXX_LIBRARY: libc++
+    CODE_SIGNING_ALLOWED: 'NO'
+    CODE_SIGNING_REQUIRED: 'NO'
+    GCC_PREPROCESSOR_DEFINITIONS: '$(inherited) KERNEL PRIVATE'
+    HEADER_SEARCH_PATHS: '$(inherited) $(SRCROOT)/external/MacKernelSDK/Headers'
+    KERNEL_EXTENSION_HEADER_SEARCH_PATHS: '$(SRCROOT)/external/MacKernelSDK/Headers'
+    KERNEL_FRAMEWORK_HEADERS: '$(SRCROOT)/external/MacKernelSDK/Headers'
+    LIBRARY_SEARCH_PATHS: '$(inherited) $(SRCROOT)/external/MacKernelSDK/Library/x86_64'
+    MACOSX_DEPLOYMENT_TARGET: '14.0'
+    GCC_ENABLE_KERNEL_DEVELOPMENT: 'YES'
+    OTHER_LDFLAGS: '$(inherited) -undefined dynamic_lookup'
+    SKIP_INSTALL: 'YES'
+
+configs:
+  Debug: debug
+  Release: release
+
+targets:
+  AirPortUtility:
+    type: bundle
+    platform: macOS
+    sources:
+      - path: Sources/Common
+      - path: Sources/AirPortUtility
+    info:
+      path: Plists/AirPortUtility.Info.plist
+      properties:
+        CFBundleExecutable: "$(EXECUTABLE_NAME)"
+        CFBundlePackageType: KEXT
+        CFBundleShortVersionString: 1.0.0
+        CFBundleVersion: 1.0.0
+        HackintoshAndBeyond:
+          Developer: Hnanoto
+          Project: Hackintosh-And-Beyond
+        IOKitPersonalities:
+          AirPortUtility:
+            CFBundleIdentifier: "$(PRODUCT_BUNDLE_IDENTIFIER)"
+            IOMatchCategory: AirPortUtility
+            IOClass: AirPortUtility
+            IOProviderClass: IOResources
+        OSBundleLibraries:
+          com.apple.kpi.bsd: "8.0.0"
+          com.apple.kpi.iokit: "8.0.0"
+          com.apple.kpi.libkern: "8.0.0"
+          com.apple.kpi.mach: "8.0.0"
+        OSBundleRequired: Root
+    settings:
+      base:
+        MACH_O_TYPE: mh_kext_bundle
+        PRODUCT_TYPE: com.apple.product-type.kernel-extension
+        PRODUCT_BUNDLE_IDENTIFIER: org.hackintosh-and-beyond.driver.airportutility
+        PRODUCT_NAME: AirPortUtility
+        WRAPPER_EXTENSION: kext
+
+  BluetoothFileExchange:
+    type: bundle
+    platform: macOS
+    sources:
+      - path: Sources/Common
+      - path: Sources/BluetoothFileExchange
+    info:
+      path: Plists/BluetoothFileExchange.Info.plist
+      properties:
+        CFBundleExecutable: "$(EXECUTABLE_NAME)"
+        CFBundlePackageType: KEXT
+        CFBundleShortVersionString: 1.0.0
+        CFBundleVersion: 1.0.0
+        HackintoshAndBeyond:
+          Developer: Hnanoto
+          Project: Hackintosh-And-Beyond
+        IOKitPersonalities:
+          BluetoothFileExchange:
+            CFBundleIdentifier: "$(PRODUCT_BUNDLE_IDENTIFIER)"
+            IOMatchCategory: BluetoothFileExchange
+            IOClass: BluetoothFileExchange
+            IOProviderClass: IOResources
+        OSBundleLibraries:
+          com.apple.kpi.bsd: "8.0.0"
+          com.apple.kpi.iokit: "8.0.0"
+          com.apple.kpi.libkern: "8.0.0"
+          com.apple.kpi.mach: "8.0.0"
+        OSBundleRequired: Root
+    settings:
+      base:
+        MACH_O_TYPE: mh_kext_bundle
+        PRODUCT_TYPE: com.apple.product-type.kernel-extension
+        PRODUCT_BUNDLE_IDENTIFIER: org.hackintosh-and-beyond.driver.bluetoothfileexchange
+        PRODUCT_NAME: BluetoothFileExchange
+        WRAPPER_EXTENSION: kext
+
+schemes:
+  AirPortUtility:
+    build:
+      targets:
+        AirPortUtility: all
+  BluetoothFileExchange:
+    build:
+      targets:
+        BluetoothFileExchange: all
