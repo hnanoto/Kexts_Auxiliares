@@ -162,7 +162,8 @@ void AirPortUtility::triggerRecovery() {
   const char* targetClasses[] = {
       "IO80211Controller",
       "AirPort_BrcmNIC",
-      "itlwm"
+      "itlwm",
+      "IOEthernetController"
   };
 
   for (UInt32 i = 0; i < sizeof(targetClasses) / sizeof(targetClasses[0]); ++i) {
