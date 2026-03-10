@@ -158,6 +158,36 @@ void AirPortUtility::triggerRecovery() {
   IOLog("[Hackintosh-And-Beyond][AirPortUtility] triggering recovery cycle %u\n",
         recoveryCount_);
   setProperty("HN.State", "Recovery");
+
+  const char* targetClasses[] = {
+      "IO80211Controller",
+      "AirPort_BrcmNIC",
+      "itlwm"
+  };
+
+  for (UInt32 i = 0; i < sizeof(targetClasses) / sizeof(targetClasses[0]); ++i) {
+    OSDictionary* matching = IOService::serviceMatching(targetClasses[i]);
+    if (matching == nullptr) continue;
+
+    OSIterator* iterator = IOService::getMatchingServices(matching); // consumes dictionary
+    if (iterator != nullptr) {
+      OSObject* obj = nullptr;
+      while ((obj = iterator->getNextObject()) != nullptr) {
+        IOService* service = OSDynamicCast(IOService, obj);
+        if (service != nullptr) {
+          IOService* provider = service->getProvider();
+          IOLog("[Hackintosh-And-Beyond][AirPortUtility] terminating -> %s\n", service->getName());
+          bool term = service->terminate(kIOServiceSynchronous);
+          if (term && provider != nullptr) {
+            IOLog("[Hackintosh-And-Beyond][AirPortUtility] reprobing -> %s\n", provider->getName());
+            provider->registerService();
+          }
+        }
+      }
+      iterator->release();
+    }
+  }
+
   registerService();
 }
 
@@ -171,7 +201,7 @@ bool AirPortUtility::isAnyServiceAvailable(const char* const* classNames,
     }
 
     IOService* service = IOService::waitForMatchingService(matching, timeoutNs);
-    matching->release();
+    // matching is consumed by waitForMatchingService, do NOT release it
     if (service != nullptr) {
       service->release();
       return true;
