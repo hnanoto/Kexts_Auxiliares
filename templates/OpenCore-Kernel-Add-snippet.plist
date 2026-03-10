@@ -38,5 +38,77 @@
     <key>PlistPath</key>
     <string>Contents/Info.plist</string>
   </dict>
+  <dict>
+    <key>Arch</key>
+    <string>Any</string>
+    <key>BundlePath</key>
+    <string>AudioStabilizer.kext</string>
+    <key>Comment</key>
+    <string>Hackintosh-And-Beyond / develop Hnanoto</string>
+    <key>Enabled</key>
+    <true/>
+    <key>ExecutablePath</key>
+    <string>Contents/MacOS/AudioStabilizer</string>
+    <key>MaxKernel</key>
+    <string></string>
+    <key>MinKernel</key>
+    <string></string>
+    <key>PlistPath</key>
+    <string>Contents/Info.plist</string>
+  </dict>
+  <dict>
+    <key>Arch</key>
+    <string>Any</string>
+    <key>BundlePath</key>
+    <string>BatteryWatchdog.kext</string>
+    <key>Comment</key>
+    <string>Hackintosh-And-Beyond / develop Hnanoto</string>
+    <key>Enabled</key>
+    <true/>
+    <key>ExecutablePath</key>
+    <string>Contents/MacOS/BatteryWatchdog</string>
+    <key>MaxKernel</key>
+    <string></string>
+    <key>MinKernel</key>
+    <string></string>
+    <key>PlistPath</key>
+    <string>Contents/Info.plist</string>
+  </dict>
+  <dict>
+    <key>Arch</key>
+    <string>Any</string>
+    <key>BundlePath</key>
+    <string>USBStabilizer.kext</string>
+    <key>Comment</key>
+    <string>Hackintosh-And-Beyond / develop Hnanoto</string>
+    <key>Enabled</key>
+    <true/>
+    <key>ExecutablePath</key>
+    <string>Contents/MacOS/USBStabilizer</string>
+    <key>MaxKernel</key>
+    <string></string>
+    <key>MinKernel</key>
+    <string></string>
+    <key>PlistPath</key>
+    <string>Contents/Info.plist</string>
+  </dict>
+  <dict>
+    <key>Arch</key>
+    <string>Any</string>
+    <key>BundlePath</key>
+    <string>IGPUWatchdog.kext</string>
+    <key>Comment</key>
+    <string>Hackintosh-And-Beyond / develop Hnanoto</string>
+    <key>Enabled</key>
+    <true/>
+    <key>ExecutablePath</key>
+    <string>Contents/MacOS/IGPUWatchdog</string>
+    <key>MaxKernel</key>
+    <string></string>
+    <key>MinKernel</key>
+    <string></string>
+    <key>PlistPath</key>
+    <string>Contents/Info.plist</string>
+  </dict>
 </array>
 </plist>

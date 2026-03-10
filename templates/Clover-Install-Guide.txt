@@ -4,8 +4,12 @@ Clover kext installation guide
 2. Copy:
    - AirPortUtility.kext
    - BluetoothFileExchange.kext
+   - AudioStabilizer.kext
+   - BatteryWatchdog.kext
+   - USBStabilizer.kext
+   - IGPUWatchdog.kext
    to EFI/CLOVER/kexts/Other/
-3. Reboot and verify Clover injected both kexts.
+3. Reboot and verify Clover injected all six kexts.
 
 Notes:
 - Clover does not require OpenCore Kernel->Add entries.
