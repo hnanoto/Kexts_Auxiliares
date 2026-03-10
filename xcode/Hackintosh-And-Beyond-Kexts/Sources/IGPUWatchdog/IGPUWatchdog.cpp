@@ -9,8 +9,12 @@ static constexpr uint64_t kMatchTimeoutNs = 1000000ULL;  // 1 ms
 static const char* kIGPUControllerClasses[] = {
     "IOGraphicsAccelerator2",
     "IntelAccelerator",
+    "AppleIntelFramebuffer",
     "AMDRadeonX4000_AMDRadeonController",
-    "AppleIntelFramebuffer"
+    "AMDRadeonX5000_AMDRadeonController",
+    "AMDRadeonX6000_AMDRadeonController",
+    "AMDFramebuffer",
+    "AMDSupport"
 };
 }  // namespace
 
@@ -154,7 +158,13 @@ void IGPUWatchdog::triggerRecovery() {
 
   const char* targetClasses[] = {
       "IOGraphicsAccelerator2",
-      "IntelAccelerator"
+      "IntelAccelerator",
+      "AppleIntelFramebuffer",
+      "AMDRadeonX4000_AMDRadeonController",
+      "AMDRadeonX5000_AMDRadeonController",
+      "AMDRadeonX6000_AMDRadeonController",
+      "AMDFramebuffer",
+      "AMDSupport"
   };
 
   for (UInt32 i = 0; i < sizeof(targetClasses) / sizeof(targetClasses[0]); ++i) {
