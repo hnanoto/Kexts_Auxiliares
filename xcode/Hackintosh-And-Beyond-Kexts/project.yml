@@ -101,6 +101,114 @@ targets:
         PRODUCT_NAME: BluetoothFileExchange
         WRAPPER_EXTENSION: kext
 
+  AudioStabilizer:
+    type: bundle
+    platform: macOS
+    sources:
+      - path: Sources/Common
+      - path: Sources/AudioStabilizer
+    info:
+      path: Plists/AudioStabilizer.Info.plist
+      properties:
+        CFBundleExecutable: "$(EXECUTABLE_NAME)"
+        CFBundlePackageType: KEXT
+        CFBundleShortVersionString: "$(MARKETING_VERSION)"
+        CFBundleVersion: "$(CURRENT_PROJECT_VERSION)"
+        HackintoshAndBeyond:
+          Developer: Hnanoto
+          Project: Hackintosh-And-Beyond
+        IOKitPersonalities:
+          AudioStabilizer:
+            CFBundleIdentifier: "$(PRODUCT_BUNDLE_IDENTIFIER)"
+            IOMatchCategory: AudioStabilizer
+            IOClass: AudioStabilizer
+            IOProviderClass: IOResources
+        OSBundleLibraries:
+          com.apple.kpi.bsd: "8.0.0"
+          com.apple.kpi.iokit: "8.0.0"
+          com.apple.kpi.libkern: "8.0.0"
+          com.apple.kpi.mach: "8.0.0"
+        OSBundleRequired: Root
+    settings:
+      base:
+        MACH_O_TYPE: mh_kext_bundle
+        PRODUCT_TYPE: com.apple.product-type.kernel-extension
+        PRODUCT_BUNDLE_IDENTIFIER: org.hackintosh-and-beyond.driver.audiostabilizer
+        PRODUCT_NAME: AudioStabilizer
+        WRAPPER_EXTENSION: kext
+
+  BatteryWatchdog:
+    type: bundle
+    platform: macOS
+    sources:
+      - path: Sources/Common
+      - path: Sources/BatteryWatchdog
+    info:
+      path: Plists/BatteryWatchdog.Info.plist
+      properties:
+        CFBundleExecutable: "$(EXECUTABLE_NAME)"
+        CFBundlePackageType: KEXT
+        CFBundleShortVersionString: "$(MARKETING_VERSION)"
+        CFBundleVersion: "$(CURRENT_PROJECT_VERSION)"
+        HackintoshAndBeyond:
+          Developer: Hnanoto
+          Project: Hackintosh-And-Beyond
+        IOKitPersonalities:
+          BatteryWatchdog:
+            CFBundleIdentifier: "$(PRODUCT_BUNDLE_IDENTIFIER)"
+            IOMatchCategory: BatteryWatchdog
+            IOClass: BatteryWatchdog
+            IOProviderClass: IOResources
+        OSBundleLibraries:
+          com.apple.kpi.bsd: "8.0.0"
+          com.apple.kpi.iokit: "8.0.0"
+          com.apple.kpi.libkern: "8.0.0"
+          com.apple.kpi.mach: "8.0.0"
+        OSBundleRequired: Root
+    settings:
+      base:
+        MACH_O_TYPE: mh_kext_bundle
+        PRODUCT_TYPE: com.apple.product-type.kernel-extension
+        PRODUCT_BUNDLE_IDENTIFIER: org.hackintosh-and-beyond.driver.batterywatchdog
+        PRODUCT_NAME: BatteryWatchdog
+        WRAPPER_EXTENSION: kext
+
+  USBStabilizer:
+    type: bundle
+    platform: macOS
+    sources:
+      - path: Sources/Common
+      - path: Sources/USBStabilizer
+    info:
+      path: Plists/USBStabilizer.Info.plist
+      properties:
+        CFBundleExecutable: "$(EXECUTABLE_NAME)"
+        CFBundlePackageType: KEXT
+        CFBundleShortVersionString: "$(MARKETING_VERSION)"
+        CFBundleVersion: "$(CURRENT_PROJECT_VERSION)"
+        HackintoshAndBeyond:
+          Developer: Hnanoto
+          Project: Hackintosh-And-Beyond
+        IOKitPersonalities:
+          USBStabilizer:
+            CFBundleIdentifier: "$(PRODUCT_BUNDLE_IDENTIFIER)"
+            IOMatchCategory: USBStabilizer
+            IOClass: USBStabilizer
+            IOProviderClass: IOResources
+        OSBundleLibraries:
+          com.apple.kpi.bsd: "8.0.0"
+          com.apple.kpi.iokit: "8.0.0"
+          com.apple.kpi.libkern: "8.0.0"
+          com.apple.kpi.mach: "8.0.0"
+        OSBundleRequired: Root
+    settings:
+      base:
+        MACH_O_TYPE: mh_kext_bundle
+        PRODUCT_TYPE: com.apple.product-type.kernel-extension
+        PRODUCT_BUNDLE_IDENTIFIER: org.hackintosh-and-beyond.driver.usbstabilizer
+        PRODUCT_NAME: USBStabilizer
+        WRAPPER_EXTENSION: kext
+
 schemes:
   AirPortUtility:
     build:
@@ -110,3 +218,15 @@ schemes:
     build:
       targets:
         BluetoothFileExchange: all
+  AudioStabilizer:
+    build:
+      targets:
+        AudioStabilizer: all
+  BatteryWatchdog:
+    build:
+      targets:
+        BatteryWatchdog: all
+  USBStabilizer:
+    build:
+      targets:
+        USBStabilizer: all

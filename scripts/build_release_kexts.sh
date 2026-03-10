@@ -7,7 +7,7 @@ BUILD_DIR="$ROOT_DIR/.build/release"
 OUT_DIR="$ROOT_DIR/kexts"
 VERSION="${KEXT_VERSION:-1.1.1}"
 BUILD_NUMBER="${KEXT_BUILD_NUMBER:-$VERSION}"
-SCHEMES=("AirPortUtility" "BluetoothFileExchange")
+SCHEMES=("AirPortUtility" "BluetoothFileExchange" "AudioStabilizer" "BatteryWatchdog" "USBStabilizer")
 GENERATE_LOG="/tmp/kexts_aux_generate.log"
 BUILD_LOG="/tmp/kexts_aux_build.log"
 
