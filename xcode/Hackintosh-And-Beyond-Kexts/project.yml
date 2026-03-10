@@ -18,8 +18,8 @@ settings:
     KERNEL_FRAMEWORK_HEADERS: '$(SRCROOT)/external/MacKernelSDK/Headers'
     LIBRARY_SEARCH_PATHS: '$(inherited) $(SRCROOT)/external/MacKernelSDK/Library/x86_64'
     MACOSX_DEPLOYMENT_TARGET: '14.0'
-    MARKETING_VERSION: '1.1.1'
-    CURRENT_PROJECT_VERSION: '1.1.1'
+    MARKETING_VERSION: '1.3.0'
+    CURRENT_PROJECT_VERSION: '1.3.0'
     GCC_ENABLE_KERNEL_DEVELOPMENT: 'YES'
     OTHER_LDFLAGS: '$(inherited) -undefined dynamic_lookup'
     SKIP_INSTALL: 'YES'
@@ -209,6 +209,42 @@ targets:
         PRODUCT_NAME: USBStabilizer
         WRAPPER_EXTENSION: kext
 
+  IGPUWatchdog:
+    type: bundle
+    platform: macOS
+    sources:
+      - path: Sources/Common
+      - path: Sources/IGPUWatchdog
+    info:
+      path: Plists/IGPUWatchdog.Info.plist
+      properties:
+        CFBundleExecutable: "$(EXECUTABLE_NAME)"
+        CFBundlePackageType: KEXT
+        CFBundleShortVersionString: "$(MARKETING_VERSION)"
+        CFBundleVersion: "$(CURRENT_PROJECT_VERSION)"
+        HackintoshAndBeyond:
+          Developer: Hnanoto
+          Project: Hackintosh-And-Beyond
+        IOKitPersonalities:
+          IGPUWatchdog:
+            CFBundleIdentifier: "$(PRODUCT_BUNDLE_IDENTIFIER)"
+            IOMatchCategory: IGPUWatchdog
+            IOClass: IGPUWatchdog
+            IOProviderClass: IOResources
+        OSBundleLibraries:
+          com.apple.kpi.bsd: "8.0.0"
+          com.apple.kpi.iokit: "8.0.0"
+          com.apple.kpi.libkern: "8.0.0"
+          com.apple.kpi.mach: "8.0.0"
+        OSBundleRequired: Root
+    settings:
+      base:
+        MACH_O_TYPE: mh_kext_bundle
+        PRODUCT_TYPE: com.apple.product-type.kernel-extension
+        PRODUCT_BUNDLE_IDENTIFIER: org.hackintosh-and-beyond.driver.igpuwatchdog
+        PRODUCT_NAME: IGPUWatchdog
+        WRAPPER_EXTENSION: kext
+
 schemes:
   AirPortUtility:
     build:
@@ -230,3 +266,7 @@ schemes:
     build:
       targets:
         USBStabilizer: all
+  IGPUWatchdog:
+    build:
+      targets:
+        IGPUWatchdog: all

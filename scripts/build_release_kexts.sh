@@ -5,9 +5,9 @@ ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 XCODE_DIR="$ROOT_DIR/xcode/Hackintosh-And-Beyond-Kexts"
 BUILD_DIR="$ROOT_DIR/.build/release"
 OUT_DIR="$ROOT_DIR/kexts"
-VERSION="${KEXT_VERSION:-1.1.1}"
+VERSION="${KEXT_VERSION:-1.3.0}"
 BUILD_NUMBER="${KEXT_BUILD_NUMBER:-$VERSION}"
-SCHEMES=("AirPortUtility" "BluetoothFileExchange" "AudioStabilizer" "BatteryWatchdog" "USBStabilizer")
+SCHEMES=("AirPortUtility" "BluetoothFileExchange" "AudioStabilizer" "BatteryWatchdog" "USBStabilizer" "IGPUWatchdog")
 GENERATE_LOG="/tmp/kexts_aux_generate.log"
 BUILD_LOG="/tmp/kexts_aux_build.log"
 

@@ -7,13 +7,13 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>
-	<string>BatteryWatchdog</string>
+	<string>IGPUWatchdog</string>
 	<key>CFBundleIdentifier</key>
-	<string>org.hackintosh-and-beyond.driver.batterywatchdog</string>
+	<string>org.hackintosh-and-beyond.driver.igpuwatchdog</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>BatteryWatchdog</string>
+	<string>IGPUWatchdog</string>
 	<key>CFBundlePackageType</key>
 	<string>KEXT</string>
 	<key>CFBundleShortVersionString</key>
@@ -49,14 +49,14 @@
 	</dict>
 	<key>IOKitPersonalities</key>
 	<dict>
-		<key>BatteryWatchdog</key>
+		<key>IGPUWatchdog</key>
 		<dict>
 			<key>CFBundleIdentifier</key>
-			<string>org.hackintosh-and-beyond.driver.batterywatchdog</string>
+			<string>org.hackintosh-and-beyond.driver.igpuwatchdog</string>
 			<key>IOClass</key>
-			<string>BatteryWatchdog</string>
+			<string>IGPUWatchdog</string>
 			<key>IOMatchCategory</key>
-			<string>BatteryWatchdog</string>
+			<string>IGPUWatchdog</string>
 			<key>IOProviderClass</key>
 			<string>IOResources</string>
 		</dict>
