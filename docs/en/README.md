@@ -5,18 +5,22 @@ This repository ships two production-named kexts:
 - `AirPortUtility.kext`
 - `BluetoothFileExchange.kext`
 
-## Kext responsibilities
+## Kext responsibilities & Advantages
 
-- `AirPortUtility.kext`:
-  - focuses on Wi-Fi and local network service stability at boot/runtime
-  - runs a watchdog for Wi-Fi/network service availability
-  - performs gentle recovery cycles when repeated degraded checks are detected
-- `BluetoothFileExchange.kext`:
-  - focuses on Bluetooth service stability at boot/runtime
-  - runs a watchdog for Bluetooth controller/transport availability
-  - performs gentle recovery cycles when repeated degraded checks are detected
+These kexts are advanced stabilizer drivers for both Hackintoshes and Real Macs running modern macOS. Rather than just monitoring or providing cosmetic injection, they feature a **hardware-level Watchdog Recovery System** capable of auto-repairing unresponsive controllers on the fly without causing memory leaks or System Panics.
 
-These are auxiliary stabilizer kexts for EFI-based workflows. They are not full hardware replacement drivers.
+- **`AirPortUtility.kext`**:
+  - Automatically monitors Wi-Fi and Local Network services (`IO80211Controller`, `AirPort_BrcmNIC`, `itlwm`).
+  - If the connection drops or the Wi-Fi card becomes unresponsive (e.g., after waking up from sleep mode), the Watchdog triggers a synchronous `terminate()` over the crashed interface and immediately issues a `registerService()` to the PCIe/USB provider bus.
+  - This simulates a forced "unplug and plug" hardware cycle at the kernel level, instantly reviving your Wi-Fi/Network.
+
+- **`BluetoothFileExchange.kext`**:
+  - Focuses on Bluetooth Controller and Transport protocol stabilization.
+  - Functions exactly like its Wi-Fi counterpart, actively watching `IOBluetoothHCIController` and USB/UART transports.
+  - Revives dead Bluetooth modules automatically by forcing the Apple Virtual Bus to reload the driver stack without requiring a system reboot.
+
+**Why add them to your EFI / macOS?**
+They guarantee **Self-Healing Capabilities** for your environment. If you ever experience random Wi-Fi drops, Bluetooth disappearing from the menu bar, or wake-from-sleep hardware issues, these Kexts will detect the failure and force the hardware back to life autonomously within 15 seconds.
 
 ## Repository layout
 

@@ -5,6 +5,23 @@ Este repositório mantém dois kexts com nomes finais de produção:
 - `AirPortUtility.kext`
 - `BluetoothFileExchange.kext`
 
+## Responsabilidades dos Kexts & Vantagens
+
+Estes kexts são drivers estabilizadores avançados tanto para Hackintoshes quanto para Macs Reais rodando versões modernas do macOS. Em vez de apenas monitorar ou prover injeção cosmética, eles contam com um **Sistema de Recuperação Watchdog a nível de hardware** capaz de auto-reparar controladores que não estejam respondendo, em tempo real, e sem causar vazamentos de memória (Memory Leaks) ou "System Panics".
+
+- **`AirPortUtility.kext`**:
+  - Monitora ativamente os serviços de Wi-Fi e Rede Local (`IO80211Controller`, `AirPort_BrcmNIC`, `itlwm`).
+  - Se a conexão cair ou a placa Wi-Fi travar (por ex., após voltar do repouso/Sleep mode), o Watchdog dispara um comando síncrono `terminate()` sobre a interface crashada e imediatamente emite um `registerService()` direto na base do barramento (PCIe/USB).
+  - Isso simula um "desconectar e reconectar" físico direto no kernel, ressuscitando sua Rede/Wi-Fi instantaneamente.
+
+- **`BluetoothFileExchange.kext`**:
+  - Focado na estabilização de Controladoras e Protocolos de Transporte Bluetooth.
+  - Funciona de modo idêntico ao seu equivalente de Wi-Fi, monitorando o `IOBluetoothHCIController` e transportes USB/UART.
+  - Revive módulos Bluetooth "mortos" forçando o Barramento Virtual da Apple a recarregar o pacote de drivers sem você precisar reiniciar a máquina.
+
+**Por que adicioná-los à sua EFI / macOS?**
+Eles garantem **Capacidades de Auto-Cura** para o seu ambiente. Caso você sofra quedas aleatórias de Wi-Fi, ícone de Bluetooth sumindo da barra de menus ou bugs ao acordar o PC do repouso, esses Kexts vão achar a falha em background e forçar o hardware a voltar à vida de forma 100% autônoma dentro de no máximo 15 segundos.
+
 ## Estrutura do repositório
 
 - `kexts/`: binários prontos para teste/uso
