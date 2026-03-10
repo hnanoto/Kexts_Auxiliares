@@ -10,9 +10,9 @@ This repository ships two production-named kexts:
 These kexts are advanced stabilizer drivers for both Hackintoshes and Real Macs running modern macOS. Rather than just monitoring or providing cosmetic injection, they feature a **hardware-level Watchdog Recovery System** capable of auto-repairing unresponsive controllers on the fly without causing memory leaks or System Panics.
 
 - **`AirPortUtility.kext`**:
-  - Automatically monitors Wi-Fi and Local Network services (`IO80211Controller`, `AirPort_BrcmNIC`, `itlwm`).
-  - If the connection drops or the Wi-Fi card becomes unresponsive (e.g., after waking up from sleep mode), the Watchdog triggers a synchronous `terminate()` over the crashed interface and immediately issues a `registerService()` to the PCIe/USB provider bus.
-  - This simulates a forced "unplug and plug" hardware cycle at the kernel level, instantly reviving your Wi-Fi/Network.
+  - Automatically monitors Wi-Fi and Local/Wired Network services (`IO80211Controller`, `AirPort_BrcmNIC`, `itlwm`, `IOEthernetController`).
+  - If the connection drops or the network card (Wi-Fi or Ethernet) becomes unresponsive (e.g., after waking up from sleep mode), the Watchdog triggers a synchronous `terminate()` over the crashed interface and immediately issues a `registerService()` to the PCIe/USB provider bus.
+  - This simulates a forced "unplug and plug" hardware cycle at the kernel level, instantly reviving your Wi-Fi/Ethernet/Network.
 
 - **`BluetoothFileExchange.kext`**:
   - Focuses on Bluetooth Controller and Transport protocol stabilization.
