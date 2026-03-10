@@ -9,7 +9,7 @@ CLOVER_ROOT="$WORK_DIR/Clover/EFI/CLOVER"
 VERSION="${1:-${KEXT_VERSION:-}}"
 BUILD_DATE_UTC="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 COMMIT_HASH="$(git -C "$ROOT_DIR" rev-parse --short HEAD)"
-KEXTS=("AirPortUtility" "BluetoothFileExchange")
+KEXTS=("AirPortUtility" "BluetoothFileExchange" "AudioStabilizer" "BatteryWatchdog" "USBStabilizer")
 
 if [ -z "$VERSION" ]; then
   VERSION="$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' \
@@ -70,6 +70,9 @@ Built: $BUILD_DATE_UTC
 Bundles:
 - AirPortUtility.kext
 - BluetoothFileExchange.kext
+- AudioStabilizer.kext
+- BatteryWatchdog.kext
+- USBStabilizer.kext
 EOF
 
 for KEXT in "${KEXTS[@]}"; do
