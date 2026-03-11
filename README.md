@@ -1,9 +1,13 @@
 # Auxiliary Kexts — Guide (EN)
 
-This repository ships two production-named kexts:
+This repository ships six production-named kexts:
 
 - `AirPortUtility.kext`
 - `BluetoothFileExchange.kext`
+- `AudioStabilizer.kext`
+- `BatteryWatchdog.kext`
+- `USBStabilizer.kext`
+- `IGPUWatchdog.kext`
 
 ## Kext responsibilities & Advantages
 
@@ -18,6 +22,24 @@ These kexts are advanced stabilizer drivers for both Hackintoshes and Real Macs 
   - Focuses on Bluetooth Controller and Transport protocol stabilization.
   - Functions exactly like its Wi-Fi counterpart, actively watching `IOBluetoothHCIController` and USB/UART transports.
   - Revives dead Bluetooth modules automatically by forcing the Apple Virtual Bus to reload the driver stack without requiring a system reboot.
+
+- **`AudioStabilizer.kext`**:
+  - Monitors high-level Audio controllers (`AppleHDAController`, `IOAudioEngine`, `VoodooHDAUserAudioDriver`).
+  - Capable of clearing audio stack crashes and restoring sound after the system wakes from sleep without requiring a reboot.
+
+- **`BatteryWatchdog.kext`**:
+  - Ideal for laptops. Monitors the ACPI bus and SMC Battery services (`IOPMPowerSource`, `SMCBatteryManager`, `AppleSmartBatteryManager`).
+  - Fixes stuck battery percentages or disappearing battery icons by forcing the VirtualSMC stack to reprobe hardware voltage values on reading pauses.
+
+- **`USBStabilizer.kext`**:
+  - Watches XHCI/EHCI/UHCI controllers. If your keyboard/mouse suddenly lags or your USB 3.0 external drive drops, it forces the board to virtually re-plug the internal USB lane within milliseconds.
+
+- **`IGPUWatchdog.kext` (Universal GPU Watchdog)**:
+  - Despite the name, this is a universal watchdog for **Intel IGPU**, **AMD IGPU** and **AMD dGPU**.
+  - **Intel Integrated:** Covers UHD, Iris, HD series via `IntelAccelerator`, `IOGraphicsAccelerator2` and `AppleIntelFramebuffer`.
+  - **AMD Integrated / APUs:** Covers Ryzen APUs (via NootedRed/etc) by injecting into `AMDFramebuffer` and `AMDSupport`.
+  - **AMD Dedicated Cards:** Covers Polaris, Vega, and Navi architectures (`AMDRadeonX4000`, `X5000`, `X6000`).
+  - Resolves complete system freezes or black screens upon waking from sleep by safely crashing the hung graphics session and reinitializing the GUI framebuffers in an instant.
 
 **Why add them to your EFI / macOS?**
 They guarantee **Self-Healing Capabilities** for your environment. If you ever experience random Wi-Fi drops, Bluetooth disappearing from the menu bar, or wake-from-sleep hardware issues, these Kexts will detect the failure and force the hardware back to life autonomously within 15 seconds.
